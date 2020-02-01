@@ -45,15 +45,15 @@ def validate_ref(ref_dict, path):
     """
     keys_to_ignore = {'x-scope', '$ref', 'description'}
 
-#    if any(key for key in iterkeys(ref_dict) if key not in keys_to_ignore):
-#        warnings.warn(
-#            SwaggerValidationWarning(
-#                'Found "$ref: {}" with siblings that will be overwritten. '
-#                'See https://stackoverflow.com/a/48114924 for more information. (path {})'.format(
-#                    ref_dict['$ref'], '/'.join(path),
-#                )
-#            ),
-#        )
+    if any(key for key in iterkeys(ref_dict) if key not in keys_to_ignore):
+        warnings.warn(
+            SwaggerValidationWarning(
+                'Found "$ref: {}" with siblings that will be overwritten. '
+                'See https://stackoverflow.com/a/48114924 for more information. (path {})'.format(
+                    ref_dict['$ref'], '/'.join(path),
+                )
+            ),
+        )
 
     if ref_dict['$ref'] is None:
         warnings.warn(
@@ -572,7 +572,7 @@ def validate_duplicate_param(params, deref):
         param = deref(param)
         param_key = (param['name'], param['in'])
         if param_key in seen:
-            raise SwaggerValidationError("%s: %s" % (msg, param_key))
+            raise SwaggerValidationError("{}: {}".format(msg, param_key))
         seen.add(param_key)
 
 
